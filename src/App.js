@@ -16,6 +16,9 @@ import Users from './Pages/Admin/Users';
 import Orders from './Pages/Admin/Orders';
 import Profile from './Pages/User/Profile';
 import Happy2 from './Happy2';
+import OrderDetails from './Pages/User/OrderDetails';
+import ForgetPassword from './Pages/User/ForgetPassword';
+import ResetPassword from './Pages/User/ResetPassword';
 
 function App() {
   return (
@@ -36,7 +39,9 @@ function App() {
         <Route path='/users' element={<Users/>}/>
         <Route path='/orderdetails' element={<Orders/>}/>
         <Route path='/profile' element={<Profile/>}/>
-        <Route path='/happy' element={<Happy2/>}/>
+        <Route path='/userorders' element={<OrderDetails/>}/>
+        <Route path='/forgetpassword' element={<ForgetPassword/>}/>
+        <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
       </Routes>
       <Footer/>
     </div>

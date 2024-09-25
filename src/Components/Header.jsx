@@ -1,26 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import { Button, Container, Form, Image, Modal, ModalBody, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { Link,  useNavigate } from 'react-router-dom'
 
 
 function Header() {
   const[token,setToken] = useState()
   const [userName,setuserName]= useState()
+  const [picture,setPicture] = useState()
  
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [show, setShow] = useState(false);
+
   useEffect(()=>{
     const user = sessionStorage.getItem('token')
     setToken(user)
       const userDetails = JSON.parse(sessionStorage.getItem('user'))
-
-      setuserName(userDetails?.fname)  
+     
+      setuserName(userDetails?.fname) 
+      setPicture(userDetails) 
   },[])
   
 
+   const logout =()=>{
+    sessionStorage.clear()
+
+   }
   
 
 
   return (
     <div className='header'>
+
+
+
       <Navbar expand="lg" className="bg-primary" >
       <Container >
       <Link to={'/'} style={{textDecoration:"none"}}><Navbar.Brand href="#home" style={{color:"blue"}}><i class="fa-solid fa-volleyball" style={{color: "#c1aa15"}}></i> SportZone</Navbar.Brand></Link>
@@ -51,7 +64,24 @@ function Header() {
         {
           token ?(
           <div>
-             <Link to={'/profile'}> <Button variant='outline' className='bg-primary ms-auto' >{userName}</Button></Link>
+            <Modal
+            size='sm'
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Profile</Modal.Title>
+        </Modal.Header>
+        <ModalBody><Image src={picture.profilepicture} alt='image'  roundedCircle style={{width:"10%"}}/></ModalBody>
+        <Modal.Footer>
+          <Button variant="primary" onClick={(e)=>logout(e)} >Place Order</Button>
+        </Modal.Footer>
+        </Modal>
+             
+             <Button variant='outline' className='bg-primary ms-auto' onClick={handleShow}>{userName}</Button>
+
              
              <Link to={'/cart'}> <Button variant='outline' className='bg-primary ms-auto'><i class="fa-solid fa-cart-shopping" style={{color: "#FFD43B"}}></i> Cart</Button></Link>
          

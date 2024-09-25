@@ -16,13 +16,7 @@ function Login() {
    const [userToken,setUserToken] = useState('')
    const [user,setUser] = useState('')
 
-   const [glogin,setGlogin] = useState({
-    fname:'',
-    lname:'',
-    email:'',
-    profilepicture:'',
-    id:''
-   })
+   const [glogin,setGlogin] = useState([])
 
    const login=async(e)=>{
     e.preventDefault()
@@ -48,23 +42,33 @@ function Login() {
     }
    }
 
-   const googleSignin=async()=>{
+   const googleSignin=async(credDecode)=>{
+       console.log(credDecode);
        
-       const{fname:,
-        lname,email,profilepicture,id} = glogin
+       const id =credDecode.jti
+       const fname=credDecode.given_name
+       const lname=credDecode.family_name
+       const email=credDecode.email
+       const profilepicture=credDecode.picture
+        console.log(id,fname,lname,email,profilepicture);
+        
 
-      
-       
-        const result = await googleLoginAPI(glogin)
+        if(!id || !fname || !lname || !email){
+          alert('unsuccessfull')
+        }
+        else{
+        const result = await googleLoginAPI(credDecode)
         console.log(result);
         
         if(result.status == 200){
-          setUserToken(sessionStorage.setItem('token',result.token))
+          sessionStorage.setItem('user',JSON.stringify(result.data.user))
+          setUserToken(sessionStorage.setItem('token',result.data.token))
+          navigate('/')
           console.log(glogin);
         }else{
           alert('error')
         }
-        
+      }
 
    }
 
@@ -92,17 +96,17 @@ function Login() {
         </Button>
      <br/>
       
-      <FormGroup className='mb-3'><FormLabel><a href="#" style={{color:"white" ,fontWeight:"bolder"}} >Forgot Password?</a><br /></FormLabel></FormGroup>
+      <FormGroup className='mb-3'><FormLabel><Link to={'/forgetpassword'}><a href="#" style={{color:"white" ,fontWeight:"bolder"}} >Forgot Password?</a></Link><br /></FormLabel></FormGroup>
       
          {/* <div id='sign' style={{width:"100%", display:'flex', justifyContent:"center",alignItems:"center", height:"100px"}}> */}
             <GoogleLogin 
             
               onSuccess={credentialResponse => {
                const credDecode = jwtDecode(credentialResponse?.credential)
-               console.log(credDecode);
+              
                console.log(credDecode.name)
-               setUser(credDecode)
-               googleSignin()
+              
+               googleSignin(credDecode)
              }}
              onError={() => {
               console.log('Login Failed');
