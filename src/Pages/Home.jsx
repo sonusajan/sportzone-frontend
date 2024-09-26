@@ -28,7 +28,7 @@ function Home() {
     const display=async()=>{
       const result = await getProduct()
       // console.log(result.data);
-      setProducts(result.data)
+      setProducts(result?.data)
       setDisplayProducts(result.data)
      }
 

@@ -98,6 +98,6 @@ export const showUsersApi = async()=>{
 }
 
 //edit user
-export const editUsers = async(id,data,reqHeader)=>{
-    return await commonAPI("PUT",`${baseUrl}/user/edituser/${id}`,data,reqHeader)
+export const editUsers = async(id,reqBody,reqHeader)=>{
+    return await commonAPI("PUT",`${baseUrl}/user/edituser/${id}`,reqBody,reqHeader)
 }

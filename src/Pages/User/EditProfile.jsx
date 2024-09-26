@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Form, InputGroup, Modal } from 'react-bootstrap'
 import { editUsers } from '../../Services/appAPI';
+import { useNavigate } from 'react-router-dom';
+import { baseUrl } from '../../Services/baseUrl';
 
 function EditProfile({details}) {
 
     const [show, setShow] = useState(false);
-
+    const navigate = useNavigate()
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [preview,setPreview] = useState()
 
-
+     
   
     const [editUser,setEditUser] = useState(
       {
-        profilepicture:details.profilepicture,
+        id:details._id,
         fname:details.fname,
-        email:details.email,
+        lname:details.lname,
         address:details.address,
-        phone:details.phone
-        
+        phone:details.phone,
+        profilepicture:details.profilepicture
       }
     )
     console.log(editUser);
@@ -29,13 +31,13 @@ function EditProfile({details}) {
       if(editUser.profilepicture){
         setPreview(URL.createObjectURL(editUser.profilepicture))
       }
-    },[editUser.profilepicture])
+     },[editUser.profilepicture])
 
     const updateUser=async()=>{
         const user = JSON.parse(sessionStorage.getItem('user'))
         const token = sessionStorage.getItem('token')
-        const {profilepicture,fname,email,address,phone} = editUser
-        if(!profilepicture || !fname || !email || !address || !phone)
+        const {id,fname,lname,address,phone,profilepicture} = editUser
+        if(!id || !fname || !lname || !address ||!phone || !profilepicture )
         {
           alert('please enter the essential data')
         }else{
@@ -44,15 +46,26 @@ function EditProfile({details}) {
           alert('not logged in')
         }else{
           var reqHeader = {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             "Authorization" : `Bearer ${token}` 
           }
           const reqBody = new FormData()
           reqBody.append('fname',fname)
-          reqBody.append('email',email)
+          reqBody.append('lname',lname)
+          
+          reqBody.append('address',address)
+          reqBody.append('phone',phone)
+          
           preview?  reqBody.append("profilepicture",profilepicture): reqBody.append("profilepicture",editUser.profilepicture)
 
-          const result = await editUsers(user._id,editUser,reqHeader)
+          const result = await editUsers(id,reqBody,reqHeader)
+          if(result.status == 200){
+            alert('updated successfully')
+            setShow(false)
+            navigate('/profile')
+          }else{
+            alert('error')
+          }
         }
       }
         
@@ -76,24 +89,25 @@ function EditProfile({details}) {
           <Modal.Title>Edit Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        
       
         <InputGroup className='mb-3'>
        <Form.Control
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
-          value={editUser?.fname}
+          value={editUser.fname}
           onChange={(e)=>setEditUser({...editUser,fname:e.target.value})}
 
         /></InputGroup>
-
-<InputGroup className='mb-3'>
+        <InputGroup  className='mb-3'>
        <Form.Control
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
-          value={editUser?.email}
-          readOnly
-          
+          value={editUser?.lname}
+          onChange={(e)=>setEditUser({...editUser,lname:e.target.value})}
+
         /></InputGroup>
+
 
 <InputGroup className='mb-3'>
        <Form.Control
@@ -113,12 +127,19 @@ function EditProfile({details}) {
 
         /></InputGroup>
 
+<InputGroup className='mb-3'>
+       <label>
+          <input type="file"  style={{display:'none'}}  onChange={(e)=>setEditUser({...editUser,profilepicture:e.target.files[0]})}/>
+          <img src={preview?preview: `${baseUrl}/uploads/${editUser.profilepicture}`} alt="" style={{width:"30%"}}/>
+       </label>
+       </InputGroup>
+ 
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Cancel
           </Button>
-          <Button variant="primary">Understood</Button>
+          <Button variant="primary" onClick={(e)=>updateUser(e)}>Update</Button>
         </Modal.Footer>
       </Modal>
     </>

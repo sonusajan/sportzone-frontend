@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Container, Form, Image, Modal, ModalBody, Nav, Navbar, NavDropdown } from 'react-bootstrap'
+import React, { useContext, useEffect, useState } from 'react'
+import { Badge, Button, Container, Form, Image, Modal, ModalBody, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { Link,  useNavigate } from 'react-router-dom'
+import { headerContext } from '../context/header'
+import { displayCartAPI } from '../Services/appAPI'
 
 
 function Header() {
   const[token,setToken] = useState()
   const [userName,setuserName]= useState()
   const [picture,setPicture] = useState()
- 
+  const navigate = useNavigate()
+  // const[header,setHeader] = useContext(headerContext)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [show, setShow] = useState(false);
+  const [count,setCount]= useState(0)
+  const [products,setProducts]=useState([])
 
   useEffect(()=>{
     const user = sessionStorage.getItem('token')
@@ -18,14 +23,33 @@ function Header() {
       const userDetails = JSON.parse(sessionStorage.getItem('user'))
      
       setuserName(userDetails?.fname) 
-      setPicture(userDetails) 
+      setPicture(userDetails?.profilepicture) 
   },[])
   
 
-   const logout =()=>{
+   const logout =async()=>{
     sessionStorage.clear()
-
+    setShow(false)
+    // setHeader('logout successfull')
+    navigate('/login')
    }
+
+   useEffect(()=>{
+     cartcount()
+   },[products])
+
+
+   const cartcount = async()=>{
+     const user = JSON.parse(sessionStorage.getItem('user'))
+     const token = sessionStorage.getItem('token')
+     if(token){
+     const result = await displayCartAPI(user._id)
+    
+      setProducts(result?.data?.products)
+      setCount(products?.length)
+     }
+   }
+ 
   
 
 
@@ -74,16 +98,20 @@ function Header() {
         <Modal.Header closeButton>
           <Modal.Title>Profile</Modal.Title>
         </Modal.Header>
-        <ModalBody><Image src={picture.profilepicture} alt='image'  roundedCircle style={{width:"10%"}}/></ModalBody>
+        <ModalBody style={{display:"flex",justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
+          <Image src={picture} alt='image'  roundedCircle style={{width:"20%"}}/>
+          {userName}
+        <Link to={'/profile'}><i class="fa-solid fa-pen-to-square" onClick={handleClose}></i></Link>
+        </ModalBody>
         <Modal.Footer>
-          <Button variant="primary" onClick={(e)=>logout(e)} >Place Order</Button>
+          <Button variant="primary" onClick={(e)=>logout(e)} >Logout</Button>
         </Modal.Footer>
         </Modal>
              
              <Button variant='outline' className='bg-primary ms-auto' onClick={handleShow}>{userName}</Button>
 
              
-             <Link to={'/cart'}> <Button variant='outline' className='bg-primary ms-auto'><i class="fa-solid fa-cart-shopping" style={{color: "#FFD43B"}}></i> Cart</Button></Link>
+             <Link to={'/cart'}> <Button variant='outline' className='bg-primary ms-auto'><i class="fa-solid fa-cart-shopping" style={{color: "#FFD43B"}}></i> Cart<Badge bg="secondary">{count}</Badge></Button></Link>
          
           </div>   ):(
             <Link to={'/login'}><Button variant='outline' className='bg-primary ms-auto' ><i class="fa-solid fa-right-to-bracket" style={{color: "#FFD43B"}} ></i> Login</Button></Link>

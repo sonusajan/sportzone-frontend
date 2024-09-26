@@ -59,18 +59,7 @@ function Profile() {
           aria-describedby="inputGroup-sizing-default"
           value={details.phone? details.phone : 'Empty'}
         /></InputGroup>
-        <InputGroup className='mb-3'>
-       <Form.Control
-          aria-label="Default"
-          aria-describedby="inputGroup-sizing-default"
-          type='password'
-          placeholder='Password'
-        /></InputGroup>
-        
-       
-        <InputGroup className='mb-3 ms-1'>
-       <Button variant='outline' className='bg-primary'>Change Password</Button>
-       </InputGroup>
+
     </div>
           <EditProfile details={details}/>
         

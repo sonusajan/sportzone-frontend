@@ -1,11 +1,14 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Col, Form, FormGroup, FormLabel, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { googleLoginAPI, loginAPI } from '../Services/appAPI';
+import { headerContext } from '../context/header';
 
 function Login() {
+
+  // const [setHeader] = useContext(headerContext)
 
    const navigate = useNavigate()
    const [loginDetails,setLoginDetails] = useState({
@@ -27,6 +30,7 @@ function Login() {
       const result = await loginAPI(loginDetails)
       if(result.status==200){
         alert("login successfull")
+        // setHeader(result)
         sessionStorage.setItem('user',JSON.stringify(result.data.member))
         sessionStorage.setItem('token',result.data.token)
         console.log(result);
@@ -61,6 +65,7 @@ function Login() {
         console.log(result);
         
         if(result.status == 200){
+          // setHeader(result)
           sessionStorage.setItem('user',JSON.stringify(result.data.user))
           setUserToken(sessionStorage.setItem('token',result.data.token))
           navigate('/')
