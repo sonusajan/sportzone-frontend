@@ -31,35 +31,40 @@ function OrderDetails() {
 
   return (
     <div>
-       <h3 style={{fontWeight:"bolder", margin:"10px"}}>Order Details</h3>
-      <div style={{width:"90%", margin:"20px"}}>
-           <Table variant='dark' className='bg-primary' responsive="sm" border={'bool'} hover>
-            <thead>
-              <tr>
-                <th>Product Name</th>   
-                <th>Image</th>
-                <th>Price</th>
-                
-              </tr>
-            </thead>
-            <tbody>
-              { orders ?
-                orders.map((item,index)=>(
-                item.order.map((items)=>(
-              <tr key={index}>
-                <td>{items.pid.pname}</td>
-                <td style={{width:"30%"}}><img src={items?`${baseUrl}/uploads/${items.pid.pimage}`:'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?cs=srgb&dl=pexels-anjana-c-169994-674010.jpg&fm=jpg'} alt="" style={{width:"30%"}}/></td>
-
-                <td>{items.pid.pprice}</td>
-            
+      {orders ?
+      <div>
+         <h3 style={{fontWeight:"bolder", margin:"10px"}}>Order Details</h3>
+        <div style={{width:"90%", margin:"20px"}}>
+             <Table variant='dark' className='bg-primary' responsive="sm" border={'bool'} hover>
+              <thead>
+                <tr>
+                  <th>Product Name</th>   
+                  <th>Image</th>
+                  <th>Price</th>
+                  
                 </tr>
-                ))
-              )):""
-            }
+              </thead>
+              <tbody>
+                { orders ?
+                  orders.map((item,index)=>(
+                  item.order.map((items)=>(
+                <tr key={index}>
+                  <td>{items.pid.pname}</td>
+                  <td style={{width:"30%"}}><img src={items?`${baseUrl}/uploads/${items.pid.pimage}`:'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?cs=srgb&dl=pexels-anjana-c-169994-674010.jpg&fm=jpg'} alt="" style={{width:"30%"}}/></td>
+  
+                  <td>{items.pid.pprice}</td>
               
-              </tbody>
-              </Table>
+                  </tr>
+                  ))
+                )):""
+              }
+                
+                </tbody>
+                </Table>
+        </div>
       </div>
+      :'No Products'
+      }
     </div>
   )
 }

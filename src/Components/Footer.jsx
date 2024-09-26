@@ -9,7 +9,7 @@ function Footer() {
 
          <div className='row w-100 m-3'>
             <Col lg={4}>
-             <Link to={'/dashboard'} style={{textDecoration:"none"}}><h4 style={{color:"blue"}}><i class="fa-solid fa-volleyball" style={{color: "#c1aa15"}}></i> SportZone</h4></Link>
+             <h4 style={{color:"blue"}}><i class="fa-solid fa-volleyball" style={{color: "#c1aa15"}}></i> SportZone</h4>
               <p style={{fontWeight:"bolder", marginTop:"20px" }}>Designed to make the sports equipments available for every sports lovers</p>
           </Col>
        

@@ -9,7 +9,7 @@ function Profile() {
 
   useEffect(()=>{
    displayProfile()
-  },[])
+  },[details])
 
  const displayProfile=()=>{
   const result = JSON.parse(sessionStorage.getItem('user'))
@@ -23,7 +23,7 @@ function Profile() {
     <div id='profile'>
 
 
-      <div style={{width:"80%" ,display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", marginTop:"20px"}}>
+      <div style={{width:"80%" ,display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", marginTop:"20px", marginBottom:"30px"} }>
         
         
      <div style={{width:"10%"}}> 
@@ -51,13 +51,15 @@ function Profile() {
          <Form.Control
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
-          value={details.address? details.address : 'Empty'}
+          value={details.address? details.address : ''}
+          placeholder='address'
         /></InputGroup>
          <InputGroup className='mb-3'>
          <Form.Control
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
-          value={details.phone? details.phone : 'Empty'}
+          value={details.phone? details.phone : ''}
+          placeholder='phone'
         /></InputGroup>
 
     </div>

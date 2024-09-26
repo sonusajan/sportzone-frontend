@@ -8,7 +8,7 @@ import { headerContext } from '../context/header';
 
 function Login() {
 
-  // const [setHeader] = useContext(headerContext)
+  const {setHeader} = useContext(headerContext)
 
    const navigate = useNavigate()
    const [loginDetails,setLoginDetails] = useState({
@@ -30,7 +30,7 @@ function Login() {
       const result = await loginAPI(loginDetails)
       if(result.status==200){
         alert("login successfull")
-        // setHeader(result)
+        setHeader(result)
         sessionStorage.setItem('user',JSON.stringify(result.data.member))
         sessionStorage.setItem('token',result.data.token)
         console.log(result);
@@ -65,7 +65,7 @@ function Login() {
         console.log(result);
         
         if(result.status == 200){
-          // setHeader(result)
+          setHeader(result)
           sessionStorage.setItem('user',JSON.stringify(result.data.user))
           setUserToken(sessionStorage.setItem('token',result.data.token))
           navigate('/')

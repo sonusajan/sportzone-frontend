@@ -99,34 +99,34 @@ function Register() {
   return (
     <div id='logings' >
 
-    <div id='register' style={{position:"relative",height:"650px"}}>
-         <img src="https://slidechef.net/wp-content/uploads/2023/11/Simple-Sports-Background.jpg" alt=""  style={{position:'absolute', background:"cover",width:"100%",height:"700px"}}/>
-      <div id='reg' style={{width:"50%" ,display:"flex",flexDirection:"column", justifyContent:"center",alignItems:"center", border:"1px", boxShadow:"2px 2px 2px 2px black", position:"relative"}}>
-        <h3 style={{color:"white"}}>Register</h3>
+    <div id='register' style={{background:"grey", opacity:"0.8"}}>
+         
+      <div id='reg' style={{width:"50%" ,display:"flex",flexDirection:"column", justifyContent:"center",alignItems:"center", boxShadow:"2px 2px 2px 2px ", position:"relative", }}>
+        <h3 style={{color:"black"}}>Register</h3>
          
             <Form className='w-100 ' style={{ display:"flex",flexDirection:"column", justifyContent:"center",alignItems:"center"}}>
-            <Form.Group id='input' className="w-75 mb-3" >
-              <Form.Label style={{color:"white" , fontSize:"17px", fontWeight:""}}>Firstname</Form.Label>
+            <Form.Group id='input' className="w-75 mb-2" >
+              <Form.Label style={{color:"black" , fontSize:"17px", fontWeight:""}}>Firstname</Form.Label>
               <Form.Control type="text" value={details.fname} name='fname' placeholder="Enter Firstname" onChange={(e)=>setDetails({...details,fname:e.target.value})}/>
           
             </Form.Group>
-            <Form.Group id='input' className="w-75 mb-3" >
-              <Form.Label style={{color:"white" , fontSize:"17px", fontWeight:""}}>Lastname</Form.Label>
+            <Form.Group id='input' className="w-75 mb-2" >
+              <Form.Label style={{color:"black" , fontSize:"17px", fontWeight:""}}>Lastname</Form.Label>
               <Form.Control type="text" value={details.lname} name='lname' placeholder="Enter Lastname" onChange={(e)=>setDetails({...details,lname:e.target.value})}/>
            
             </Form.Group>
-            <Form.Group id='input' className="w-75 mb-3">
-              <Form.Label style={{color:"white" , fontSize:"17px", fontWeight:""}}>Email address</Form.Label>
+            <Form.Group id='input' className="w-75 mb-2">
+              <Form.Label style={{color:"black" , fontSize:"17px", fontWeight:""}}>Email address</Form.Label>
               <Form.Control type="email" value={details.email} name='email' placeholder="Enter email" onChange={(e)=>setDetails({...details,email:e.target.value})}/>
           
             </Form.Group>
               
-            <Form.Group id='input' className="w-75 mb-3">
-              <Form.Label style={{color:"white" , fontSize:"17px", fontWeight:""}}>Phone Number</Form.Label>
+            <Form.Group id='input' className="w-75 mb-2">
+              <Form.Label style={{color:"black" , fontSize:"17px", fontWeight:""}}>Phone Number</Form.Label>
               <Form.Control type="text" value={details.phone} name='phone' placeholder="Enter phone no." onChange={(e)=>setDetails({...details,phone:e.target.value})}/>
             </Form.Group>
             
-            <Form.Group id='input' className="w-75 mb-3" >
+            <Form.Group id='input' className="w-75 mb-2" >
             <FloatingLabel controlId="floatingTextarea2" style={{color:"white" , fontSize:"17px", fontWeight:""}}>Address</FloatingLabel>
         
        
@@ -144,8 +144,8 @@ function Register() {
   
       
        
-            <Form.Group id='input' className="w-75 mb-3" controlId="formBasicPassword">
-              <Form.Label style={{color:"white" , fontSize:"17px", fontWeight:""}}>Password</Form.Label>
+            <Form.Group id='input' className="w-75 mb-2" controlId="formBasicPassword">
+              <Form.Label style={{color:"black" , fontSize:"17px", fontWeight:""}}>Password</Form.Label>
               <Form.Control type="password" name='password' placeholder="Password" value={details.password} onChange={(e)=>setDetails({...details,password:e.target.value})} />
            
             </Form.Group>
@@ -160,7 +160,7 @@ function Register() {
                
               
             
-            <h6 style={{color:"white", fontFamily:"bold", marginBottom:"20px"}}>Already have an account? <Link to={'/login'}><a href='#' style={{color:"white" , fontSize:"15px", fontWeight:"bolder"}}> Login </a></Link></h6>
+            <h6 style={{color:"black", fontFamily:"bold", marginBottom:"20px"}}>Already have an account? <Link to={'/login'}><a href='#' style={{color:"blue" , fontSize:"15px", fontWeight:"bolder"}}> Login </a></Link></h6>
           </Form>
           
       </div>

@@ -11,17 +11,20 @@ function EditProfile({details}) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [preview,setPreview] = useState()
-
+    
+    
+     console.log(details);
      
-  
+     
+
     const [editUser,setEditUser] = useState(
       {
-        id:details._id,
-        fname:details.fname,
-        lname:details.lname,
-        address:details.address,
-        phone:details.phone,
-        profilepicture:details.profilepicture
+        
+        fname:details?.fname,
+        lname:details?.lname,
+        address:details?.address,
+        phone:details?.phone,
+        profilepicture:details?.profilepicture
       }
     )
     console.log(editUser);
@@ -29,15 +32,15 @@ function EditProfile({details}) {
 
     useEffect(()=>{
       if(editUser.profilepicture){
-        setPreview(URL.createObjectURL(editUser.profilepicture))
+        setPreview(URL.createObjectURL(editUser?.profilepicture))
       }
-     },[editUser.profilepicture])
+     },[editUser?.profilepicture])
 
     const updateUser=async()=>{
         const user = JSON.parse(sessionStorage.getItem('user'))
         const token = sessionStorage.getItem('token')
-        const {id,fname,lname,address,phone,profilepicture} = editUser
-        if(!id || !fname || !lname || !address ||!phone || !profilepicture )
+        const {fname,lname,address,phone,profilepicture} = editUser
+        if( !fname || !lname || !address ||!phone )
         {
           alert('please enter the essential data')
         }else{
@@ -46,7 +49,7 @@ function EditProfile({details}) {
           alert('not logged in')
         }else{
           var reqHeader = {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             "Authorization" : `Bearer ${token}` 
           }
           const reqBody = new FormData()
@@ -56,11 +59,12 @@ function EditProfile({details}) {
           reqBody.append('address',address)
           reqBody.append('phone',phone)
           
-          preview?  reqBody.append("profilepicture",profilepicture): reqBody.append("profilepicture",editUser.profilepicture)
+           preview?  reqBody.append("profilepicture",profilepicture): reqBody.append("profilepicture",editUser.profilepicture)
 
-          const result = await editUsers(id,reqBody,reqHeader)
+          const result = await editUsers(user?._id,reqBody,reqHeader)
           if(result.status == 200){
             alert('updated successfully')
+            sessionStorage.setItem('user',JSON.stringify(result.data))
             setShow(false)
             navigate('/profile')
           }else{
@@ -95,7 +99,8 @@ function EditProfile({details}) {
        <Form.Control
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
-          value={editUser.fname}
+          value={editUser?.fname}
+          placeholder='fname'
           onChange={(e)=>setEditUser({...editUser,fname:e.target.value})}
 
         /></InputGroup>
@@ -104,6 +109,7 @@ function EditProfile({details}) {
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
           value={editUser?.lname}
+          placeholder='lname'
           onChange={(e)=>setEditUser({...editUser,lname:e.target.value})}
 
         /></InputGroup>
@@ -114,6 +120,7 @@ function EditProfile({details}) {
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
           value={editUser?.address}
+          placeholder='address'
           onChange={(e)=>setEditUser({...editUser,address:e.target.value})}
 
         /></InputGroup>
@@ -123,6 +130,7 @@ function EditProfile({details}) {
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
           value={editUser?.phone}
+          placeholder='phone'
           onChange={(e)=>setEditUser({...editUser,phone:e.target.value})}
 
         /></InputGroup>

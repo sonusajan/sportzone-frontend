@@ -8,9 +8,10 @@ import { displayCartAPI } from '../Services/appAPI'
 function Header() {
   const[token,setToken] = useState()
   const [userName,setuserName]= useState()
+  const [role,setRole] = useState()
   const [picture,setPicture] = useState()
   const navigate = useNavigate()
-  // const[header,setHeader] = useContext(headerContext)
+  const {header,setHeader} = useContext(headerContext)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [show, setShow] = useState(false);
@@ -24,19 +25,23 @@ function Header() {
      
       setuserName(userDetails?.fname) 
       setPicture(userDetails?.profilepicture) 
-  },[])
+      if(userDetails?.role == 1){
+      setRole(userDetails?.role)
+      }
+
+  },[header])
   
 
    const logout =async()=>{
     sessionStorage.clear()
     setShow(false)
-    // setHeader('logout successfull')
+    setHeader('logout successfull')
     navigate('/login')
    }
 
    useEffect(()=>{
      cartcount()
-   },[products])
+   },[products,header])
 
 
    const cartcount = async()=>{
@@ -65,24 +70,8 @@ function Header() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto " >
                   <Link to={'/about'} style={{textDecoration:"none"}}><Nav.Link href="#link" style={{fontWeight:"bolder"}}>About</Nav.Link></Link>
-                  
-                  <NavDropdown style={{fontWeight:"bolder", position:"relative"}} title="Sports" id="basic-nav-dropdown">
-                    <img src=" https://dm0qx8t0i9gc9.cloudfront.net/watermarks/image/rDtN98Qoishumwih/abstract-sports-background_f17TaJ1F_SB_PM.jpg" alt="" style={{width:"100%", position:"absolute", height:"300px"}}/>
-                    <Link to={'/items'} style={{textDecoration:"none"}}>
-                    <NavDropdown.Item href="#action/3.1" style={{position:"relative"}}>Badminton</NavDropdown.Item></Link>
-                    <NavDropdown.Item href="#action/3.2" style={{position:"relative"}}>BaseBall</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3" style={{position:"relative"}}>BasketBall</NavDropdown.Item>            
-                    <NavDropdown.Item href="#action/3.3" style={{position:"relative"}}>Cricket</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3" style={{position:"relative"}}>FootBall</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3" style={{position:"relative"}}>Golf</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3" style={{position:"relative"}}>Hockey</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3" style={{position:"relative"}}>Table Tennis</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3" style={{position:"relative"}}>Tennis</NavDropdown.Item>
-      
-                    <NavDropdown.Item href="#action/3.4">
-                      
-                    </NavDropdown.Item>
-                  </NavDropdown>
+                  <Link to={'/contact'} style={{textDecoration:"none"}}><Nav.Link href="#link" style={{fontWeight:"bolder"}}>Contact</Nav.Link></Link>
+                 
           </Nav>
           
         {

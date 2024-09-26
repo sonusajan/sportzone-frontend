@@ -20,7 +20,7 @@ function Cart() {
 
      useEffect(()=>{
       displayCart()
-     },[])
+     },[display])
 
      const[sum,setSum] = useState(0)
 
@@ -116,7 +116,7 @@ function Cart() {
       
       const razorPayOrder=(amount)=>{
       let data = {
-      amount:amount,
+      amount:amount*100,
       currency:"INR"
       }
       
