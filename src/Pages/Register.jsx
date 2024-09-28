@@ -1,10 +1,18 @@
 import React, { useState } from 'react'
-import { Button, FloatingLabel, Form, FormGroup, FormLabel } from 'react-bootstrap'
+import { Button, FloatingLabel, Form, FormGroup, FormLabel, InputGroup, Modal } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { registerAPI } from '../Services/appAPI'
+import { otpResend, registerAPI, verifyEmail } from '../Services/appAPI'
+import Resend from './User/Resend'
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
   const navigate = useNavigate()
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [show, setShow] = useState(false);
+  const [expired,setExpired] = useState('')
+  const [buttons,setButtons] = useState('')
 
   const [details,setDetails] = useState({
     fname:'',
@@ -16,8 +24,13 @@ function Register() {
 
   })
  
- 
+  const [otpverify,setotpVerify] = useState({
+    email:'',
+    otp:''
+  }) 
 
+
+  
 
   // console.log(details);
   
@@ -76,13 +89,16 @@ function Register() {
     e.preventDefault()
     const {fname,lname,email,phone,address,password} = details
     if(!fname || !lname || !email || !phone || !address || !password){
-      alert('please fill the form')
+      toast.warning("please fill the form");
     }
    else{
     const result = await registerAPI(details)
+    console.log(result);
+   
     if(result.status==200){
       alert("Registration Successful")
-      navigate('/login')
+      setExpired(result.otpExpires)
+      handleShow()
     }else{
       if(result.status==406)
       {
@@ -93,6 +109,30 @@ function Register() {
     }
    }
   }
+
+ 
+  
+
+  const otpVerification = async(e)=>{
+    const {email,otp}  = otpverify
+    if(!email || !otp){
+      alert('please enter the data')
+    }else{
+        const result = await verifyEmail(otpverify)
+        
+        if(result.status == 200){
+        
+          alert('email verification successfully completed')
+          handleClose()
+          navigate('/login')
+        }else{
+          alert('otp mismatch')
+        }
+    }
+  }
+ 
+  
+
 
 
 
@@ -127,7 +167,7 @@ function Register() {
             </Form.Group>
             
             <Form.Group id='input' className="w-75 mb-2" >
-            <FloatingLabel controlId="floatingTextarea2" style={{color:"white" , fontSize:"17px", fontWeight:""}}>Address</FloatingLabel>
+            <FloatingLabel controlId="floatingTextarea2" style={{color:"black" , fontSize:"17px", fontWeight:""}}>Address</FloatingLabel>
         
        
           <Form.Control
@@ -157,7 +197,48 @@ function Register() {
                   <Button variant="primary" type="submit" className="mb-3"  onClick={(e)=>display(e)}>
                    Register
                   </Button>
-               
+                  
+               <>
+               <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Email verification</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <InputGroup >
+        <Form.Control
+        className='mb-3'
+          aria-label="Default"
+          aria-describedby="inputGroup-sizing-default"
+          placeholder='Email'
+          value={otpverify.email}
+          onChange={(e)=>setotpVerify({...otpverify,email:e.target.value})}
+        />
+        <InputGroup >
+        <Form.Control
+          className='mb-3'
+          aria-label="Default"
+          aria-describedby="inputGroup-sizing-default"
+          placeholder='OTP'
+          value={otpverify.otp}
+          onChange={(e)=>setotpVerify({...otpverify,otp:e.target.value})}
+        />
+        </InputGroup>
+         <Button variant="primary" type="submit" className="mb-3"  onClick={(e)=>otpVerification(e)}>
+                   Verify
+                  </Button>
+                
+      </InputGroup>
+                 <Resend/>
+     
+      </Modal.Body>
+      </Modal>
+      
+               </>
               
             
             <h6 style={{color:"black", fontFamily:"bold", marginBottom:"20px"}}>Already have an account? <Link to={'/login'}><a href='#' style={{color:"blue" , fontSize:"15px", fontWeight:"bolder"}}> Login </a></Link></h6>
@@ -165,6 +246,16 @@ function Register() {
           
       </div>
     </div>
+    <ToastContainer position="top-center" autoClose={5000}
+                 hideProgressBar={false}           
+                 newestOnTop={false}
+                 closeOnClick
+                 rtl={false}
+                pauseOnFocusLoss
+               draggable
+               pauseOnHover
+               theme="light"
+               />
     </div>
   )
 }

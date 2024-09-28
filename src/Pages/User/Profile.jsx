@@ -15,7 +15,7 @@ function Profile() {
   const result = JSON.parse(sessionStorage.getItem('user'))
   setDetails(result)
  }
- console.log(details);
+//  console.log(details);
  
   
 
@@ -23,7 +23,7 @@ function Profile() {
     <div id='profile'>
 
 
-      <div style={{width:"80%" ,display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", marginTop:"20px", marginBottom:"30px"} }>
+      <div style={{width:"80%",height:'70vh' ,display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", marginTop:"20px", marginBottom:"30px"} }>
         
         
      <div style={{width:"10%"}}> 
@@ -39,13 +39,13 @@ function Profile() {
        <Form.Control
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
-          value={details.fname}
+          value={details?.fname}
         /></InputGroup>
         <InputGroup className='mb-3'>
        <Form.Control
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
-          value={details.email}
+          value={details?.email}
         /></InputGroup>
          <InputGroup className='mb-3'>
          <Form.Control

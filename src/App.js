@@ -20,6 +20,7 @@ import OrderDetails from './Pages/User/OrderDetails';
 import ForgetPassword from './Pages/User/ForgetPassword';
 import ResetPassword from './Pages/User/ResetPassword';
 import { HeaderProvider } from './context/header';
+import Resend from './Pages/User/Resend';
 
 
 
@@ -47,6 +48,7 @@ function App() {
             <Route path='/userorders' element={<OrderDetails/>}/>
             <Route path='/forgetpassword' element={<ForgetPassword/>}/>
             <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
+            <Route path='/resendmail' element={<Resend/>}/>
           </Routes>
           <Footer/>
        

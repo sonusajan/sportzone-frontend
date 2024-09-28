@@ -101,3 +101,13 @@ export const showUsersApi = async()=>{
 export const editUsers = async(id,reqBody,reqHeader)=>{
     return await commonAPI("PUT",`${baseUrl}/user/edituser/${id}`,reqBody,reqHeader)
 }
+
+//email verification
+export const verifyEmail = async(reqBody)=>{
+    return await commonAPI("POST",`${baseUrl}/user/otpverify`,reqBody,"")
+}
+
+//resend otp
+export const otpResend = async(reqBody)=>{
+    return await commonAPI("POST",`${baseUrl}/user/otpresend`,reqBody,"")
+}

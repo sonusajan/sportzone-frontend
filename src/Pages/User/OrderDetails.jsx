@@ -31,7 +31,7 @@ function OrderDetails() {
 
   return (
     <div>
-      {orders ?
+      {orders.length>0 ?
       <div>
          <h3 style={{fontWeight:"bolder", margin:"10px"}}>Order Details</h3>
         <div style={{width:"90%", margin:"20px"}}>
@@ -63,7 +63,14 @@ function OrderDetails() {
                 </Table>
         </div>
       </div>
-      :'No Products'
+      :
+    <div style={{ width:"100%",height:"65vh", display:'flex',justifyContent:"center",alignItems:'center'}}>
+       <div style={{ width:"50%",height:"65vh", display:'flex',justifyContent:"center",alignItems:'center'}}>
+          {/* <img src='https://cdn.dribbble.com/users/429792/screenshots/3649946/media/bb28392f6e913c06c56495260d0204a6.png' style={{width:'70%', height:'20vh'}}>
+          </img> */}
+          <h2 style={{color:"grey", fontWeight:'bolder'}}>No Orders</h2>
+       </div>
+    </div>
       }
     </div>
   )

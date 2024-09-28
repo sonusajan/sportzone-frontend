@@ -1,2 +1,2 @@
-export const baseUrl = "https://sportzone-backend.onrender.com"
+export const baseUrl = "http://localhost:4000"
 

@@ -5,6 +5,7 @@ import { Button, Col, Form, FormGroup, FormLabel, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { googleLoginAPI, loginAPI } from '../Services/appAPI';
 import { headerContext } from '../context/header';
+import { toast, ToastContainer } from 'react-toastify';
 
 function Login() {
 
@@ -15,7 +16,8 @@ function Login() {
     email:'',
     password:''
    })
-
+    
+   
    const [userToken,setUserToken] = useState('')
    const [user,setUser] = useState('')
 
@@ -29,13 +31,17 @@ function Login() {
     }else{
       const result = await loginAPI(loginDetails)
       if(result.status==200){
-        alert("login successfull")
+        const notify = () => toast("please fill the form");
+        notify()
         setHeader(result)
         sessionStorage.setItem('user',JSON.stringify(result.data.member))
         sessionStorage.setItem('token',result.data.token)
         console.log(result);
         setLoginDetails('')
         if(result.data.member.role==1){
+          const notify = () => toast("Login Successfull");
+
+          notify()
            navigate('/dashboard')
         }else{
             navigate('/')
@@ -124,6 +130,17 @@ function Login() {
     </Form>
     </div>
     </div>
+    
+    <ToastContainer position="top-center" autoClose={5000}
+                 hideProgressBar={false}           
+                 newestOnTop={false}
+                 closeOnClick
+                 rtl={false}
+                pauseOnFocusLoss
+               draggable
+               pauseOnHover
+               theme="light"
+               />
     </div>
   )
 }

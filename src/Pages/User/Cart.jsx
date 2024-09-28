@@ -269,15 +269,21 @@ function Cart() {
                  )):
                  (
                   <div id='items' style={{position:"relative",height:"700px", width:"100%"}}>
-                    <img src="https://png.pngtree.com/thumb_back/fh260/background/20230613/pngtree-little-shopping-cart-on-a-keyboard-that-could-enhance-your-online-image_2975660.jpg" alt="" style={{position:'absolute', background:"cover",width:"100%",height:"700px"}} />
+                    {/* <img src="https://png.pngtree.com/thumb_back/fh260/background/20230613/pngtree-little-shopping-cart-on-a-keyboard-that-could-enhance-your-online-image_2975660.jpg" alt="" style={{position:'absolute', background:"cover",width:"100%",height:"700px"}} />
+                     */}
+                     <h2 style={{color:"grey", fontWeight:'bolder'}}>Cart Empty</h2>
                   </div>
                  )} 
-                 <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                
+             { display.length>0 ?
+             
+             (<div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
   
               <Button  style={{margin:'20px'}} variant="primary" onClick={handleShow}>makepayment</Button>
   
               <Link to={'/userorders'}><Button>Order Details</Button></Link>
-                </div>  
+                </div> ):''
+                } 
             </div>
         </div>
         </div>

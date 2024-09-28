@@ -3,6 +3,7 @@ import { Button, Card, CardBody, Carousel, Col, Dropdown, Form, OverlayTrigger,T
 import { addCartAPI, getProduct } from '../Services/appAPI'
 import { baseUrl } from '../Services/baseUrl';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 function Home() {
@@ -22,7 +23,7 @@ function Home() {
 
   useEffect(()=>{
     display()
-  },[displayProducts])
+  },[])
   
 
     const display=async()=>{
@@ -58,6 +59,7 @@ function Home() {
  
         }else{
          alert('not logged in')
+        // toast.info('not logged in')
          navigate('/login')
         }
        }
@@ -170,6 +172,16 @@ function Home() {
                 </div>
  
       </div>
+      <ToastContainer position="top-center" autoClose={5000}
+                 hideProgressBar={false}           
+                 newestOnTop={false}
+                 closeOnClick
+                 rtl={false}
+                pauseOnFocusLoss
+               draggable
+               pauseOnHover
+               theme="light"
+               />
     </div>
   )
 }

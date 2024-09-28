@@ -3,6 +3,7 @@ import { Button, Form } from 'react-bootstrap'
 import { resetPasswordApi } from '../../Services/appAPI'
 import { jwtDecode } from 'jwt-decode'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
 
 function ResetPassword() {
    
@@ -32,7 +33,8 @@ function ResetPassword() {
     const reset = async()=>{
         const {password,conpassword} = newPass
         if(!password || !conpassword){
-            alert('fill the data')
+            // alert('fill the data')
+            toast.warning('fill the data')
         }else{
             const result = await resetPasswordApi(token,password)
             console.log(result);
@@ -64,7 +66,16 @@ function ResetPassword() {
                 <Button onClick={(e)=>reset(e)}>Reset</Button>
                 </Form>
       </div>
-
+      <ToastContainer position="top-center" autoClose={5000}
+                 hideProgressBar={false}           
+                 newestOnTop={false}
+                 closeOnClick
+                 rtl={false}
+                pauseOnFocusLoss
+               draggable
+               pauseOnHover
+               theme="light"
+               />
     </div>
   )
 }

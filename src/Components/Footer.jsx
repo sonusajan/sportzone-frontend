@@ -17,7 +17,7 @@ function Footer() {
                   <h3 style={{color:"grey"}}>Links</h3>
                
                   <h5> <a href="#" style={{textDecoration:"none", color:""}}>Home</a></h5>
-                     <Link to={'/cart'} style={{textDecoration:"none"}}><h5><a href=""style={{textDecoration:"none" , color:""}}>Cart</a></h5></Link>
+                     <Link to={'/about'} style={{textDecoration:"none"}}><h5><a href=""style={{textDecoration:"none" , color:""}}>About Us</a></h5></Link>
                      <h5><Link to={'/contact'} style={{textDecoration:"none"}}><a href=""style={{textDecoration:"none" , color:""}}>Contact Us</a></Link></h5>
                   
                </Col>
